@@ -20,7 +20,7 @@
     $mdp1 = htmlspecialchars($_POST["mdp1"]);
     $mdp2 = htmlspecialchars($_POST["mdp2"]);
     $validmdp = password_hash($mdp1, PASSWORD_BCRYPT );
-    $date = date('d/m/Y a H:i:s');
+    $date = date('d/m/Y à H:i:s');
     $token="" ;
 
     if(!empty($nom) AND !empty($prenom) AND !empty($email) AND !empty($mdp1) AND !empty($mdp2)){
@@ -29,7 +29,7 @@
           if (strlen($nom) <= 50 AND preg_match('#^\p{L}+$#', $nom)){
             if (strlen($prenom) <= 50 AND preg_match('#^\p{L}+$#', $prenom)){
               if (strlen($email) <= 75 ){
-                if (preg_match('#^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])#', $mdp1) ) {
+                if (preg_match('#^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])#', $mdp1) AND strlen($mdp1)) {
                    $verifmail = $bdd->prepare('SELECT id from utilisateur WHERE Email = "'.$email.'"');
                    $verifmail->execute();
                    if($verifmail->rowCount() < 1){
@@ -48,7 +48,7 @@
                     } else {
                       $return = " une erreur est survenu." ;
                     }
-                   }else { $return = "Votre adresse email est deja utilisé " ;}
+                   }else { $return = "Votre adresse email est deja utilisée " ;}
                 }else { $return = "Votre mot de passe doit être conforme au modéle présentez ci-dessus" ; }
               }else { $return = "Votre adresse email posséde trop de caractéres" ; }
             }else { $return = "<br>"."Votre prenom posséde trop de caractéres" ; }
@@ -79,6 +79,9 @@
         $UserData = $verifconnexion-> fetch() ;
         $pass = $UserData['Pass'];
         $prenom = $UserData['Prenom'];
+        $nom= $UserData["Nom"];
+        $date= $UserData["Date"];
+        $id= $UserData["Id"];
         //accés au panel admin
           if($login === "administrateur@gmail.com" AND password_verify($mdp,$pass)){
             session_start();
@@ -87,6 +90,9 @@
           }else if(password_verify($mdp,$pass)){
             session_start();
             $_SESSION["login"] = $prenom ;
+            $_SESSION["nom"] = $nom ;
+            $_SESSION["date"] = $date ;
+            $_SESSION["id"] = $id ;
             header('Location: home.php') ;
           }else { $return = "Les identifiants sont invalides" ; }
     }else{ $return = " veuillez renseigner tous les champs " ; }
@@ -104,7 +110,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href="styles.css">
-    <title>Document</title>
+    <title>Connexion/Inscripiton</title>
 </head>
 <body>
   <div>

@@ -129,6 +129,10 @@ header {
   height: 500px;
 }
 
+#form1 , #form2{
+  cursor: pointer;
+}
+
 .panel1 {
   border-right: solid black 3px;
   height: 25px;

@@ -1,5 +1,5 @@
-// panel de connexion-inscription ajax
 
+// panel de connexion-inscription ajax
 $(document).ready(function () {
   $("#form1, #connexion").click(function () {
     document.cookie = "form=0";
@@ -43,7 +43,6 @@ $(document).ready(function () {
 });
 
 // conditions des champs du formulaire d'inscription
-
 document.getElementById("email").addEventListener("change", verifemail);
 document.getElementById("nom").addEventListener("change", verifnom);
 document.getElementById("prenom").addEventListener("change", verifprenom);
