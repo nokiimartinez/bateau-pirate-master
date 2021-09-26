@@ -23,9 +23,7 @@
 
     ?>
 
-
-
-    <?php require "header.php" ; ?>
+    <?php require_once("header.php") ; ?>
 
     <div class="container-fluid ">
         <div class="row text-center bg-dark text-white pb-3 pt-4 fs-5">

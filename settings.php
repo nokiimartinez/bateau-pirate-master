@@ -19,6 +19,17 @@ try {
     echo "Erreur: ". $e->getMessage();
   }
 
+  //recuperation de l'id
+  $email = $_SESSION['email'];
+  $recupId = $bdd->prepare("SELECT Id FROM utilisateur WHERE Email=:email ");
+       $recupId->execute(array(
+        ':email' => $email
+       ));
+       $id = $recupId->fetch();
+       $id = $id[0];
+
+    $_SESSION['id']=$id ;
+
 //suppression du compte
   $id = $_SESSION["id"];
 
@@ -33,7 +44,7 @@ try {
 
 <body>
   <div>
-    <?php require "header.php" ?>
+    <?php require_once("header.php") ?>
   </div>
     <div class="container-fluid mt-5">
         <div class="row">
@@ -48,7 +59,6 @@ try {
                 <p>Nom : <?php echo $_SESSION["nom"]; ?></p>
                 <p>Prenom : <?php echo $_SESSION["login"]; ?></p>
                 <p>Inscrit depuis le : <?php echo $_SESSION["date"]; ?></p>
-                <p>ID : <?php echo $_SESSION["id"]; ?></p>
             </div>
             <div class="col-6 border border-dark d-flex justify-content-center text-center">
                 <form method="POST">

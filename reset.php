@@ -1,29 +1,3 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="styles.css">
-    <title>Document</title>
-</head>
-<body>
-    <?php require "header.php" ?>
-
-     <div class="container-fluid mynavbar">
-        <div class="row justify-content-center align-items-center" style="min-height: 403px;">
-            <form method="POST" class="col-11 col-sm-10 col-md-7 col-lg-5 d-flex flex-column text-center bg-white border border-dark border-4 shadow-lg rounded p-5">
-                    <div class="row"><h2 class="fs-3 py-4">Réinitialisation de mot de passe </h2></div>
-                    <label for="email" class="p-3">Veuillez saisir votre adresse email</label>
-                    <input type="email" class="mx-3 mb-2" name="resetemail" >
-                    <input class="btn btn-dark m-3" type="submit" >
-            </form>
-        </div>
-    </div>
-    
-    
 <?php
 
     require ('sendemail.php');
@@ -61,14 +35,41 @@
        ));
        
        //envoie du mail
-       $sujet = "Reinitialisation de mot de passe.";
-       $message = "Veuillez cliquer sur le lien suivant pour reinitialiser votre mot de passe : ". "<a href='http://localhost/projet/bateau%20pirate%20v0.7/bateau%20pirate/newpass.php?id=".$id."&token=".$newtoken."'><p>clique ici</p></a>" ;
+       if($recupId->rowCount() > 1){
+        $sujet = "Reinitialisation de mot de passe.";
+        $message = "Veuillez cliquer sur le lien suivant pour reinitialiser votre mot de passe : ". "<a href='http://localhost/bateau-pirate-master/newpass.php?id=".$id."&token=".$newtoken."'><p>clique ici</p></a>" ;
        
        send_mail($email, $sujet , $message);
-       
+       }else{ $return = "votre adresse email est introuvable" ; }
     }
 ?>
 
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="styles.css">
+    <title>Document</title>
+</head>
+<body>
+    <?php require_once("header.php") ?>
+
+     <div class="container-fluid mynavbar">
+        <div class="row justify-content-center align-items-center" style="min-height: 403px;">
+            <form method="POST" class="col-11 col-sm-10 col-md-7 col-lg-5 d-flex flex-column text-center bg-white border border-dark border-4 shadow-lg rounded p-5">
+                    <div class="row"><h2 class="fs-3 py-4">Réinitialisation de mot de passe </h2></div>
+                    <label for="email" class="p-3">Veuillez saisir votre adresse email</label>
+                    <input type="email" class="mx-3 mb-2" name="resetemail" >
+                    <input class="btn btn-dark m-3" type="submit" >
+                    <div class="retour_de_formulaire"><?php echo $return ?></div>
+            </form>
+        </div>
+    </div>
     
 </body>
 </html>

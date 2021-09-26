@@ -10,7 +10,7 @@
     <title>Document</title>
 </head>
 <body>
-    <?php require "header.php" ?>
+    <?php require_once("header.php") ?>
 
      <div class="container-fluid mynavbar">
         <div class="row justify-content-center align-items-center" style="min-height: 503px;">

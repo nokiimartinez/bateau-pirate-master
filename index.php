@@ -14,7 +14,7 @@
     <title>Accueil</title>
   </head>
   <body>
-    <div><?php require "header.php" ?></div>
+    <div><?php require_once("header.php") ?></div>
     <section>
       <div class="image_accueil">
         <h2 class="texte_accueil">Bienvenue sur notre boutique</h2>

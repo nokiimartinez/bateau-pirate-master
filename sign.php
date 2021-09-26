@@ -29,9 +29,11 @@
           if (strlen($nom) <= 50 AND preg_match('#^\p{L}+$#', $nom)){
             if (strlen($prenom) <= 50 AND preg_match('#^\p{L}+$#', $prenom)){
               if (strlen($email) <= 75 ){
-                if (preg_match('#^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])#', $mdp1) AND strlen($mdp1)) {
-                   $verifmail = $bdd->prepare('SELECT id from utilisateur WHERE Email = "'.$email.'"');
-                   $verifmail->execute();
+                if (preg_match('#^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])#', $mdp1) AND strlen($mdp1) >= 8) {
+                   $verifmail = $bdd->prepare('SELECT id from utilisateur WHERE Email =:email');
+                   $verifmail->execute(array(
+                     ':email'=>$email
+                   ));
                    if($verifmail->rowCount() < 1){
                     $insertUser = $bdd ->prepare('INSERT INTO utilisateur (Nom, Prenom, Email, Pass, Date, Token ) VALUES (:Nom, :Prenom, :Email ,:Pass, :Date, :Token) ');
                     if($insertUser->execute(array(
@@ -44,6 +46,9 @@
                     ))) {
                       session_start();
                       header("Location:home.php");
+                      $_SESSION["email"] = $email ;
+                      $_SESSION["nom"] = $nom ;
+                      $_SESSION["date"] = $date ;
                       $_SESSION["login"] = $prenom ;
                     } else {
                       $return = " une erreur est survenu." ;
@@ -73,26 +78,40 @@
     $mdp = htmlspecialchars($mdp);
   
     if(!empty($login) AND !empty($mdp)){
-      $bdd -> query('INSERT INTO connexion (AdresseIP, Login , Pass , Date ) VALUES ("'.$ip.'","'.$login.'","'.$validmdp.'","'.$date.'") ' );
-      $verifconnexion = $bdd -> prepare('SELECT * FROM utilisateur WHERE Email = "'.$login.'" ' );
-        $verifconnexion-> execute();
+      $insertCon = $bdd -> prepare('INSERT INTO connexion (AdresseIP, Login , Pass , Date ) VALUES (:ip , :login , :mdp , :date)');
+      $insertCon->execute(array(
+        ':ip'=> $ip,
+        ':login' => $login,
+        ':mdp' => $validmdp,
+        ':date' => $date     
+      ));
+      $verifconnexion = $bdd -> prepare('SELECT * FROM utilisateur WHERE Email =:login ' );
+        $verifconnexion-> execute(array(
+          ':login'=>$login
+        ));
         $UserData = $verifconnexion-> fetch() ;
         $pass = $UserData['Pass'];
         $prenom = $UserData['Prenom'];
         $nom= $UserData["Nom"];
         $date= $UserData["Date"];
         $id= $UserData["Id"];
+        $email=$UserData['Email'];
         //accés au panel admin
           if($login === "administrateur@gmail.com" AND password_verify($mdp,$pass)){
             session_start();
-            $_SESSION["login"] = $prenom ;
-            header('Location:PanelAdmin.php');
-          }else if(password_verify($mdp,$pass)){
-            session_start();
+            $_SESSION["email"] = $email ;
             $_SESSION["login"] = $prenom ;
             $_SESSION["nom"] = $nom ;
             $_SESSION["date"] = $date ;
-            $_SESSION["id"] = $id ;
+            $_SESSION["id"]= $id ;
+            header('Location:PanelAdmin.php');
+          }else if(password_verify($mdp,$pass)){
+            session_start();
+            $_SESSION["email"] = $email ;
+            $_SESSION["login"] = $prenom ;
+            $_SESSION["nom"] = $nom ;
+            $_SESSION["date"] = $date ;
+            $_SESSION["id"]= $id ;
             header('Location: home.php') ;
           }else { $return = "Les identifiants sont invalides" ; }
     }else{ $return = " veuillez renseigner tous les champs " ; }
@@ -114,7 +133,7 @@
 </head>
 <body>
   <div>
-    <?php require "header.php" ?>
+    <?php require_once("header.php") ?>
   </div>
     <div class="container">
     <div class="row">

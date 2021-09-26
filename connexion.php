@@ -1,3 +1,4 @@
+<!-- formulaire de connexion -->
 <form method="POST">
   <div class="mb-3">
     <label for="Email" class="form-label">Adresse email</label>

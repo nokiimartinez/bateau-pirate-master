@@ -43,6 +43,9 @@ $(document).ready(function () {
 });
 
 // conditions des champs du formulaire d'inscription
+
+// addeventlistener est une fonction qui ecoute l'element, il lui applique une fonction a chaque fois que l'evenment est produit ("change"). 
+// ici c'est lorsque l'utilisateur rentre et sort du champ de formulaire.
 document.getElementById("email").addEventListener("change", verifemail);
 document.getElementById("nom").addEventListener("change", verifnom);
 document.getElementById("prenom").addEventListener("change", verifprenom);
@@ -50,14 +53,23 @@ document.getElementById("mdp1").addEventListener("change", verifmdp1);
 document.getElementById("mdp2").addEventListener("change", verifmdp2);
 document.getElementById("condition").addEventListener("change", validation);
 
+//etablis des verifications sur le champ "mail"
 function verifemail() {
+  //recupere la valeur du champ.
   email = document.getElementById("email").value;
+  //recupere l'element a savoir notre input.
   inputemail = document.getElementById("email");
+  // test effectués a email. utilisation d'un reggex ( petite expression connu de tous servant à verifier si l'email est bien conforme ) 
+  // testemail renvoie 1 si tout est bon et 0 sinon.
   testemail = email.match(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/g);
+  //mesure la longueur de la variable "email" ;
   longueur = email.length;
+  // conditions : email conforme et longueur ne depassant pas les 75 caractéres.
   if (testemail && longueur <= 75) {
+    //ajoute et supprime une classe CSS a l'element inputemail 
     inputemail.classList.add("valid");
     inputemail.classList.remove("error");
+    //pour les verifications de la fonction validation
     validationmail = 1;
   } else {
     inputemail.classList.remove("valid");
