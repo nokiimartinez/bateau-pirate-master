@@ -34,9 +34,10 @@ try {
   $id = $_SESSION["id"];
 
   if(isset($_POST["suppression"])){
-        $suppUser = $bdd->prepare('DELETE FROM utilisateur WHERE id ="'.$id.'"');
-        $suppUser->execute();
-        echo "votre compte a bien été supprimé";
+        $suppUser = $bdd->prepare('DELETE FROM utilisateur WHERE id =:id');
+        $suppUser->execute(array(
+            ':id'=> $id
+        ));
         header("Location: logout.php");
     }
 ?>
