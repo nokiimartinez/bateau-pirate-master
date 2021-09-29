@@ -51,9 +51,9 @@
                       $_SESSION["date"] = $date ;
                       $_SESSION["login"] = $prenom ;
                     } else {
-                      $return = " une erreur est survenu." ;
+                      $return = "une erreur est survenu." ;
                     }
-                   }else { $return = "Votre adresse email est deja utilisée " ;}
+                   }else { $return = "Votre adresse email est deja utilisée" ;}
                 }else { $return = "Votre mot de passe doit être conforme au modéle présentez ci-dessus" ; }
               }else { $return = "Votre adresse email posséde trop de caractéres" ; }
             }else { $return = "<br>"."Votre prenom posséde trop de caractéres" ; }
