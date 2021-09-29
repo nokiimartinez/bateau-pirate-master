@@ -1,5 +1,5 @@
 <?php
-
+    $return = "" ; 
     require ('sendemail.php');
 
      // connexion a la base de données 
@@ -35,11 +35,11 @@
        ));
        
        //envoie du mail
-       if($recupId->rowCount() > 1){
+       if($recupId->rowCount() === 1){
         $sujet = "Reinitialisation de mot de passe.";
         $message = "Veuillez cliquer sur le lien suivant pour reinitialiser votre mot de passe : ". "<a href='http://localhost/bateau-pirate-master/newpass.php?id=".$id."&token=".$newtoken."'><p>clique ici</p></a>" ;
-       
-       send_mail($email, $sujet , $message);
+        send_mail($email, $sujet , $message);
+
        }else{ $return = "votre adresse email est introuvable" ; }
     }
 ?>

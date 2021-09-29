@@ -17,9 +17,9 @@
             <form method="POST" class="col-11 col-sm-10 col-md-7 col-lg-5 d-flex flex-column text-center bg-white border border-dark border-4 shadow-lg rounded p-5">
                     <div class="row"><h2 class="fs-3 py-4">Réinitialisation de mot de passe </h2></div>
                     <label for="newmdp1" class="p-3">Veuillez saisir votre nouveau mot de passe</label>
-                    <input type="text" class="mx-3 mb-2" name="newmdp1">
+                    <input type="password" class="mx-3 mb-2" name="newmdp1">
                     <label for="newmdp2" class="p-3">Confirmation du mot de passe</label>
-                    <input type="text" class="mx-3 mb-2" name="newmdp2">
+                    <input type="password" class="mx-3 mb-2" name="newmdp2">
                     <input class="btn btn-dark m-3" type="submit" >
             </form>
         </div>
